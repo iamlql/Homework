@@ -30,6 +30,7 @@ def plot_circle(u, v, ord):
 	plot_one_circle(u, cal_sum_norm(v, 0, ord), 'b')
 	plot_one_circle(origin, cal_sum_norm(u, v, ord), 'g')
 	plot_one_circle(origin, cal_norm_sum(u, v, ord), 'm')
+	plt.arrow(0, 0, u[0]+v[0], u[1]+v[1], length_includes_head = True)
 	plt.arrow(0, 0, u[0], u[1], length_includes_head = True)
 	plt.arrow(u[0], u[1], (v)[0], (v)[1], length_includes_head = True)
 	# plt.axis('equal')
