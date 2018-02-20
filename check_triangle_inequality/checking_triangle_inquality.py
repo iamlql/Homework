@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Wedge, CirclePolygon
 
 def cal_sum_norm(u, v, ord = 2):
 	if ord == 1:
@@ -18,15 +17,14 @@ def cal_norm_sum(u, v, ord = 2):
 	else:
 		return np.sum(u**ord)**(1.0/ord) + np.sum(v**ord)**(1.0/ord)
 
+def plot_one_circle(origin, r, color):
+	theta_array = np.linspace(0, 2*np.pi, 500)
+	x = np.asarray([origin[0]+r*np.cos(theta) for theta in theta_array])
+	y = np.asarray([origin[1]+r*np.sin(theta) for theta in theta_array])
+	plt.plot(x, y, color)
+
 def plot_circle(u, v, ord):
-	x = np.array([0,0])
 	fig = plt.figure()
-	# ax = fig.add_subplot(111)
-	def plot_one_circle(origin, r, color):
-		theta_array = np.linspace(0, 2*np.pi, 500)
-		x = np.asarray([origin[0]+r*np.cos(theta) for theta in theta_array])
-		y = np.asarray([origin[1]+r*np.sin(theta) for theta in theta_array])
-		plt.plot(x, y, color)
 	origin = np.array([0, 0])
 	plot_one_circle(origin, cal_sum_norm(u, 0, ord), 'r')
 	plot_one_circle(u, cal_sum_norm(v, 0, ord), 'b')
@@ -34,17 +32,37 @@ def plot_circle(u, v, ord):
 	plot_one_circle(origin, cal_norm_sum(u, v, ord), 'm')
 	plt.arrow(0, 0, u[0], u[1], length_includes_head = True)
 	plt.arrow(u[0], u[1], (v)[0], (v)[1], length_includes_head = True)
-	plt.gca().set_aspect('equal')
 	# plt.axis('equal')
 
 u = np.array([1,2])
 v = np.array([2,2])
 
 p = np.array([1,2,5,0.5])
-sum_norm = np.asarray([cal_sum_norm(u, v, ord_index) for ord_index in p])
-norm_sum = np.asarray([cal_norm_sum(u, v, ord_index) for ord_index in p])
-for i in p:
-	plot_circle(u, v, i)
+sum_norm = np.array([cal_sum_norm(u, v, ord_index) for ord_index in p])
+# print sum_norm
+# print np.linalg.norm(u+v,1)
+# print np.linalg.norm(u+v,2)
+# print np.linalg.norm(u+v,5)
+# print np.linalg.norm(u+v,0.5)
+norm_sum = np.array([cal_norm_sum(u, v, ord_index) for ord_index in p])
+# print norm_sum
+# print np.linalg.norm(u,1)+np.linalg.norm(v,1)
+# print np.linalg.norm(u,2)+np.linalg.norm(v,2)
+# print np.linalg.norm(u,5)+np.linalg.norm(v,5)
+# print np.linalg.norm(u,0.5)+np.linalg.norm(v,0.5)
+
+plot_circle(u, v, 1)
+fig_1 = plt.gca().set_aspect('equal')
+
+plot_circle(u, v, 2)
+fig_2 = plt.gca().set_aspect('equal')
+
+plot_circle(u, v, 5)
+fig_3 = plt.gca().set_aspect('equal')
+
+plot_circle(u, v, 0.5)
+fig_4 = plt.gca().set_aspect('equal')
+
 plt.show()
 
 
